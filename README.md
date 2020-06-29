@@ -1,9 +1,25 @@
+<p align="center">
+  <img  width="100" height="100" src="img/openlock.svg" />
+</p>
+
 # pwndb
 Leaked password finder
 
-## Install
+## Installation
+### Prerequisites
+```bash
+sudo apt install python3 python3-pip git tor
+pip3 install virtualenv --user 
 ```
-pip3 install git+https://github.com/jxlil/pwndb.git --user
+### Install
+```bash
+git clone https://github.com/jxlil/pwndb.git
+cd pwndb
+
+virtualenv venv
+source venv/bin/activate
+
+pip3 install -r requirements.txt --user
 ```
 
 ## Usage
@@ -24,10 +40,13 @@ optional arguments:
 ```
 
 ## Example
+The **Tor** service needs to be active `sudo service tor restart`
 ```bash
-pwndb -t john.%@gmail.com -V -o emails.json
+# It's character % serves as a wildcard
+python3 bin/pwndb.py -t john.%@gmail.com -V -o emails.json
 
-pwndb -t 123456789 --password -V -o passwords.json
+# You can also search by password
+python3 bin/pwndb.py -t 123456789 --password -V -o passwords.json
 ```
 
 ---
