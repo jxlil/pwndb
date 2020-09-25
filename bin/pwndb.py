@@ -1,18 +1,19 @@
 #!/usr/bin/env python3
 
-import sys
 from argparse import ArgumentParser
-from os import path
 from pathlib import Path
+from os import path
 
-BASE_DIR = str(Path(__file__).resolve().parent.parent)
+import sys
+
+BASE_DIR = str(Path(__file__).resolve().parents[1])
 sys.path.insert(0, BASE_DIR)
 
 try:
     from pwndb import __version__
     from pwndb import main
-except ModuleNotFoundError as error:
-    print(f"[x] {error}")
+except ModuleNotFoundError as identifier:
+    print("Error:", identifier)
     sys.exit(1)
 
 if __name__ == "__main__":

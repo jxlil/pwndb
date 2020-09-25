@@ -3,8 +3,9 @@
 from pwndb.requester import Requester
 from pwndb.printer import Printer
 from pwndb.parser import Parser
+from pwndb.banner import Banner
 from pwndb.saved import Saved
-from pwndb import banner
+
 
 import time
 import re
@@ -12,6 +13,7 @@ import re
 
 class Init(object):
     def __init__(self, args):
+        banner = Banner()
         banner.print_banner()
 
         print("[~] Starting")
