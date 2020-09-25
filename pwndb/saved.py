@@ -18,4 +18,4 @@ class Saved(object):
         with open(self.filename, "w") as f:
             f.write(output)
 
-        print(f"[+] The file {self.filename} was created.")
+        print(f"[+] The file '{self.filename}' was created")

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.8
 
 import sys
 import re
@@ -20,8 +20,12 @@ class Parser(object):
             domain = self.get_data(item[2])
             passwd = self.get_data(item[3])
 
+            email = f"{localpart}@{domain}"
+            if email == "donate@btc.thx":
+                continue
+
             self.result[index] = {
-                "email": f"{localpart}@{domain}",
+                "email": email,
                 "password": f"{passwd}",
             }
 
