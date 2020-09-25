@@ -1,15 +1,16 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.8
+
+from argparse import ArgumentParser
+from pathlib import Path
 
 import sys
-from argparse import ArgumentParser
-from os import path
 
 try:
-    sys.path.insert(0, path.abspath(path.join(path.dirname(__file__), "..")))
+    sys.path.insert(0, Path(__file__).resolve().parents[1])
     from pwndb import __version__
     from pwndb import main
 except ModuleNotFoundError as error:
-    print(f"[x] {error}")
+    print(f"[X] {error}")
     sys.exit(1)
 
 if __name__ == "__main__":

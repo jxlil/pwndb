@@ -16,4 +16,3 @@ def print_banner():
         |_|                              
         """
     )
-

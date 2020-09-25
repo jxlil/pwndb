@@ -1,9 +1,9 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.8
+
+from pwndb.parser import Parser
 
 import requests
 import re
-
-from pwndb.parser import Parser
 
 
 class Requester(object):
@@ -27,4 +27,3 @@ class Requester(object):
 
         except Exception as e:
             raise e
-

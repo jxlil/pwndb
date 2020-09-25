@@ -16,4 +16,3 @@ class Printer(object):
             tab.add_row((item["email"], item["password"]))
 
         print(tab.draw())
-

@@ -1,13 +1,14 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.8
 
-import re
-import time
 
-from pwndb import banner
 from pwndb.requester import Requester
-from pwndb.parser import Parser
 from pwndb.printer import Printer
+from pwndb.parser import Parser
 from pwndb.saved import Saved
+from pwndb import banner
+
+import time
+import re
 
 
 class Init(object):
@@ -52,4 +53,3 @@ class Init(object):
                 "domainopr": 1,
                 "submitform": "em",
             }
-
