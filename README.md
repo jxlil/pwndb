@@ -1,24 +1,14 @@
-<p align="center">
-  <img  width="100" height="100" src="img/openlock.svg" />
-</p>
-
 # pwndb
 Leaked password finder
 
 ## Installation
 ### Prerequisites
 ```bash
-sudo apt install python3 python3-pip git tor
-pip3 install virtualenv --user 
+sudo apt install tor
 ```
 ### Install
 ```bash
-git clone https://github.com/jxlil/pwndb.git
-cd pwndb
-
-virtualenv venv
-source venv/bin/activate
-
+git clone https://github.com/jxlil/pwndb.git; cd pwndb
 pip3 install -r requirements.txt --user
 ```
 
@@ -51,11 +41,4 @@ python3 bin/pwndb.py -t 123456789 --password -V -o passwords.json
 
 ---
 
-## Author
-
-**Jalil SA**
-
-Do you want to support this project? You can send a **pull request**, write an **issue** or just **buy me a coffee**!
-
-
-<a href="https://www.buymeacoffee.com/jxlil" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/guidelines/download-assets-sm-2.svg"></a>
+**jxlil**
