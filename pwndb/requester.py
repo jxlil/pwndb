@@ -1,9 +1,9 @@
 #!/usr/bin/env python3.8
 
+from yaspin import yaspin, Spinner
 from pwndb.parser import Parser
-
 import requests
-import re
+import sys
 
 
 class Requester(object):
@@ -12,6 +12,7 @@ class Requester(object):
         self.session = requests.session()
         self.__set_proxies(proxy)
         self.parser = Parser()
+        self.spinner = Spinner(["[ ]", "[.]", "[:]", "[.]", "[ ]"], 200)
 
     def __set_proxies(self, proxy):
         self.session.proxies = {
@@ -21,9 +22,14 @@ class Requester(object):
 
     def request(self, data):
 
-        try:
-            resp = self.session.post(self.url, data=data)
-        except Exception as e:
-            raise e
+        with yaspin(self.spinner, text="Downloading information") as spinner:
+            try:
+                resp = self.session.post(self.url, data=data, timeout=15)
+                spinner.ok("[+]")
+
+            except Exception as identifier:
+                spinner.fail("[-]")
+                print("Error:", identifier)
+                sys.exit(3)
 
         return self.parser.response_parse(resp.text)
