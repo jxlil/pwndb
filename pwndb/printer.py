@@ -4,15 +4,16 @@ import texttable as tt
 
 
 class Printer(object):
-    def __init__(self, resp: dict):
-        self.resp = resp
+    def __init__(self):
 
-    def print_resp(self):
-        tab = tt.Texttable()
-        tab.set_cols_dtype(["t", "t"])
-        tab.header(["Email", "Password"])
+        # create texttable
+        self.texttable = tt.Texttable()
+        self.texttable.set_cols_dtype(["t", "t"])
+        self.texttable.header(["Email", "Password"])
 
-        for _, item in self.resp.items():
-            tab.add_row((item["email"], item["password"]))
+    def print_response(self, response: dict):
 
-        print(tab.draw())
+        for _, item in response.items():
+            self.texttable.add_row((item["email"], item["password"]))
+
+        print(self.texttable.draw())

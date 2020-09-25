@@ -16,36 +16,30 @@ class Init(object):
         banner.print_banner()
 
         print("[~] Starting ...")
-        proxy = args.tor_proxy
-        data = self._set_data(args.password, args.target)
-        req = Requester(proxy)
+        data = self.__set_data(args.password, args.target)
 
         print("[~] Waiting for request ...")
-        resp = req.request(data)
+        requester = Requester(args.tor_proxy)
+        resp = requester.request(data)
 
         if args.verbose:
             print("[~] Print response")
-            printer = Printer(resp)
-            printer.print_resp()
+            printer = Printer()
+            printer.print_response(resp)
 
         print(f"[+] {len(resp)} emails found.")
 
         print("[~] Create file with data.")
-        if args.output:
-            saved = Saved(args.output)
-        else:
-            filename = f"{time.strftime('%d%m%y-%H%M%S')}.json"
-            saved = Saved(filename)
-
+        saved = Saved(args.output)
         saved.write_file(resp)
 
-    def _set_data(self, password, target) -> dict:
+    def __set_data(self, password, target) -> dict:
 
         if password:
             return {"submitform": "pw", "password": target}
         else:
-            parser = Parser(target)
-            localpart, domain = parser.target_parse()
+            parser = Parser()
+            localpart, domain = parser.email_parse(target)
             return {
                 "luser": localpart,
                 "domain": domain,
