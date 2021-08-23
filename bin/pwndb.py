@@ -2,7 +2,6 @@
 
 from argparse import ArgumentParser
 from pathlib import Path
-from os import path
 
 import sys
 
@@ -12,12 +11,16 @@ sys.path.insert(0, BASE_DIR)
 try:
     from pwndb import __version__
     from pwndb import main
-except ModuleNotFoundError as identifier:
-    print("Error:", identifier)
-    sys.exit(1)
+
+except ModuleNotFoundError as e:
+    raise e
 
 if __name__ == "__main__":
-    parser = ArgumentParser(description="Leaked password finder")
+
+    parser = ArgumentParser(
+        description="Leaked emails finder. Powered by: pwndb2am4tzkvold.onion"
+    )
+
     parser.add_argument(
         "-t",
         "--target",
@@ -26,6 +29,7 @@ if __name__ == "__main__":
         help="Set target email.",
         required=True,
     )
+
     parser.add_argument(
         "--password",
         dest="password",
@@ -33,6 +37,7 @@ if __name__ == "__main__":
         default=False,
         help="Search by password.",
     )
+
     parser.add_argument(
         "-V",
         "--verbose",
@@ -41,6 +46,7 @@ if __name__ == "__main__":
         default=False,
         help="Display results on screen.",
     )
+
     parser.add_argument(
         "-o",
         "--output",
@@ -48,9 +54,11 @@ if __name__ == "__main__":
         type=str,
         help="Save output in JSON format.",
     )
+
     parser.add_argument(
         "--tor-proxy", type=str, default="localhost:9050", help="Set Tor proxy."
     )
+
     parser.add_argument(
         "-v", "--version", action="version", version="%(prog)s " + __version__
     )

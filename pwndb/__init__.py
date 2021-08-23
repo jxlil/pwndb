@@ -1,1 +1,2 @@
-__version__ = "v1.1b"
+__version__ = "v1.2"
+__author__ = "jxlil"

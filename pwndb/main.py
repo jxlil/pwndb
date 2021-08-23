@@ -1,47 +1,34 @@
 #!/usr/bin/env python3.8
 
+from texttable import Texttable
+
 from pwndb.requester import Requester
-from pwndb.printer import Printer
-from pwndb.parser import Parser
-from pwndb.banner import Banner
-from pwndb.saved import Saved
-
-
-import time
-import re
+from pwndb import banner
+from pwndb import files
 
 
 class Init(object):
     def __init__(self, args):
-        banner = Banner()
-        banner.print_banner()
 
-        print("[~] Starting")
-        data = self.__set_data(args.password, args.target)
-        requester = Requester(args.tor_proxy)
-        resp = requester.request(data)
+        banner.display()
+
+        self.requester = Requester(args)
+        response = self.requester.make_request()
 
         if args.verbose:
-            printer = Printer()
-            printer.print_response(resp)
+            print(self.__generate_table(response).draw())
 
-        print(f"[+] {len(resp)} emails found")
+        print(f"[+] {len(response)} emails found")
+        files.write(response=response, filename=args.output)
 
-        print("[~] Create file with data")
-        saved = Saved(args.output)
-        saved.write_file(resp)
+    def __generate_table(self, response: list) -> Texttable:
 
-    def __set_data(self, password, target) -> dict:
+        # create table with two columns
+        table = Texttable()
+        table.set_cols_dtype(["t", "t"])
+        table.header(["Email", "Password"])
 
-        if password:
-            return {"submitform": "pw", "password": target}
-        else:
-            parser = Parser()
-            localpart, domain = parser.email_parse(target)
-            return {
-                "luser": localpart,
-                "domain": domain,
-                "luseropr": 1,
-                "domainopr": 1,
-                "submitform": "em",
-            }
+        for item in response:
+            table.add_row((item["email"], item["password"]))
+
+        return table

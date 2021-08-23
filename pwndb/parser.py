@@ -1,42 +1,48 @@
 #!/usr/bin/env python3.8
 
-import sys
-import re
+from re import findall, match
 
 
-class Parser(object):
-    def __init__(self):
-        self.result = dict()
-        self.get_data = lambda s: s.split("=>")[1].strip()
+def _split_email(email: list) -> list:
 
-    def response_parse(self, response: str) -> dict:
+    values = list()
+    for item in email:
+        values.append(item.split("=>")[1].strip())
 
-        text = re.findall(r"\[(.*)", response)
-        text = [text[n : n + 4] for n in range(0, len(text), 4)]
+    return values
 
-        for item in text:
-            index = self.get_data(item[0])
-            localpart = self.get_data(item[1])
-            domain = self.get_data(item[2])
-            passwd = self.get_data(item[3])
 
-            email = f"{localpart}@{domain}"
-            if email == "donate@btc.thx":
-                continue
+def parse_response(response: str) -> list:
 
-            self.result[index] = {
+    results = list()
+
+    raw_emails = findall(r"\[(.*)", response)
+    raw_emails = [raw_emails[n : n + 4] for n in range(0, len(raw_emails), 4)]
+
+    for raw_email in raw_emails:
+        # raw_email: ['id] => 74303', 'luser] => donate', 'domain] => btc.thx', 'password] => 1J1iZ2KRAyPyhXm6xxAyWyVV3FPqAqLHkG']
+        _id, localpart, domain, passwd = _split_email(raw_email)
+
+        email = f"{localpart}@{domain}"
+        if email == "donate@btc.thx":
+            continue
+
+        results.append(
+            {
+                "id": _id,
                 "email": email,
-                "password": f"{passwd}",
+                "password": passwd,
             }
+        )
 
-        return self.result
+    return results
 
-    def email_parse(self, email: str) -> list:
 
-        regex = r"(^[a-zA-Z0-9_.+%-]+@[a-zA-Z0-9%-]+\.[a-zA-Z0-9-.%]+$)"
-        if re.match(regex, email):
-            return email.split("@")
-        else:
-            print(f"[x] Invalid target: {email}")
-            print("[~] Target email expected: example@domain.com")
-            sys.exit(2)
+def parse_email(email: str) -> list:
+
+    regex = r"(^[a-zA-Z0-9_.+%-]+@[a-zA-Z0-9%-]+\.[a-zA-Z0-9-.%]+$)"
+    if match(regex, email):
+        return email.split("@")
+
+    else:
+        raise Exception(f"Invalid email: {email}")
